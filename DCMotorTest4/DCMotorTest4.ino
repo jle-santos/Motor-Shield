@@ -16,10 +16,10 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 // Adafruit_MotorShield AFMS = Adafruit_MotorShield(0x61); 
 
 // Select which 'port' M1, M2, M3 or M4. In this case, M1
-Adafruit_DCMotor *myMotor = AFMS.getMotor(1);
+Adafruit_DCMotor *MOTOR_A = AFMS.getMotor(4);
 Adafruit_DCMotor *MOTOR_B = AFMS.getMotor(2);
-Adafruit_DCMotor *MOTOR_C = AFMS.getMotor(3);
-Adafruit_DCMotor *MOTOR_D = AFMS.getMotor(4);
+Adafruit_DCMotor *MOTOR_C = AFMS.getMotor(1);
+Adafruit_DCMotor *MOTOR_D = AFMS.getMotor(3);
 // You can also make another motor on port M2
 //Adafruit_DCMotor *myOtherMotor = AFMS.getMotor(2);
 
@@ -50,7 +50,6 @@ void setup() {
   pinMode(BIT0, INPUT);
   pinMode(BIT1, INPUT);
   pinMode(BIT2, INPUT);
-
   
   digitalWrite(LED_PIN, LOW);
   
@@ -61,18 +60,13 @@ void setup() {
   //AFMS.begin(1000);  // OR with a different frequency, say 1KHz
   
   // Set the speed to start, from 0 (off) to 255 (max speed)
-  myMotor->setSpeed(255);
-  MOTOR_B->setSpeed(255);
-  MOTOR_C->setSpeed(255);
-  MOTOR_D->setSpeed(255);
-  /*
-  myMotor->run(FORWARD);
-  MOTOR_B->run(FORWARD);
-  MOTOR_C->run(FORWARD);
-  MOTOR_D->run(FORWARD);
-  */
+  MOTOR_A->setSpeed(0);
+  MOTOR_B->setSpeed(0);
+  MOTOR_C->setSpeed(0);
+  MOTOR_D->setSpeed(0);
+
   // turn on motor
-  myMotor->run(RELEASE);
+  MOTOR_A->run(RELEASE);
   MOTOR_B->run(RELEASE);
   MOTOR_C->run(RELEASE);
   MOTOR_D->run(RELEASE);
@@ -89,7 +83,7 @@ void loop() {
   BIT2VAL = digitalRead(BIT2);
 
   byte i = (getSpeed(BIT0VAL, BIT1VAL, BIT2VAL))*32;
-  myMotor->setSpeed(i);
+  MOTOR_A->setSpeed(i);
   MOTOR_B->setSpeed(i);
   MOTOR_C->setSpeed(i);
   MOTOR_D->setSpeed(i); 
@@ -97,78 +91,6 @@ void loop() {
   //Serial.print("\n");
   
   checkDir(PIN_A, PIN_B, PIN_EN);
-  /*
-  Serial.print("tick");
-  myMotor->run(FORWARD);
-  MOTOR_B->run(FORWARD);
-  MOTOR_C->run(FORWARD);
-  MOTOR_D->run(FORWARD);
-  i = 255;
-  myMotor->setSpeed(i);
-  MOTOR_B->setSpeed(i);
-  MOTOR_C->setSpeed(i);
-  MOTOR_D->setSpeed(i);  
-  delay(2000);
-  myMotor->run(RELEASE);
-  MOTOR_B->run(RELEASE);
-  MOTOR_C->run(RELEASE);
-  MOTOR_D->run(RELEASE);
-
-  //go backwards
-  myMotor->run(BACKWARD);
-  MOTOR_B->run(BACKWARD);
-  MOTOR_C->run(BACKWARD);
-  MOTOR_D->run(BACKWARD);
-
-    delay(2000);
-  myMotor->run(RELEASE);
-  MOTOR_B->run(RELEASE);
-  MOTOR_C->run(RELEASE);
-  MOTOR_D->run(RELEASE);
-   */ 
-  /*
-  myMotor->run(FORWARD);
-  MOTOR_B->run(FORWARD);
-  MOTOR_C->run(FORWARD);
-  MOTOR_D->run(FORWARD);
-  
-  for (i=0; i<255; i++) {
-    myMotor->setSpeed(i);
-    MOTOR_B->setSpeed(i);
-    MOTOR_C->setSpeed(i);
-    MOTOR_D->setSpeed(i);  
-    delay(10);
-  }
-  for (i=255; i!=0; i--) {
-    myMotor->setSpeed(i);
-    MOTOR_B->setSpeed(i);
-    MOTOR_C->setSpeed(i);
-    MOTOR_D->setSpeed(i);    
-    delay(10);
-  }
-  
-  Serial.print("tock");
-
-  myMotor->run(BACKWARD);
-  MOTOR_B->run(BACKWARD);
-  MOTOR_C->run(BACKWARD);
-  MOTOR_D->run(BACKWARD);
-  for (i=0; i<255; i++) {
-    myMotor->setSpeed(i);  
-    delay(10);
-  }
-  for (i=255; i!=0; i--) {
-    myMotor->setSpeed(i);  
-    delay(10);
-  }
-
-  Serial.print("tech");
-  myMotor->run(RELEASE);
-  MOTOR_B->run(RELEASE);
-  MOTOR_C->run(RELEASE);
-  MOTOR_D->run(RELEASE);
-  */
-  //delay(1000);
 }
 
 byte getSpeed(int A, int B, int C) {
@@ -184,34 +106,34 @@ byte getSpeed(int A, int B, int C) {
 void checkDir(int A, int B, int EN) {
   if(EN == HIGH){
     digitalWrite(LED_PIN, HIGH);
-    
+    //Backward
     if(A == HIGH && B == HIGH){
-      myMotor->run(BACKWARD);
-      MOTOR_B->run(BACKWARD);
-      MOTOR_C->run(BACKWARD);
-      MOTOR_D->run(BACKWARD);
-    }
-    else if(A == LOW && B == LOW) {
-      myMotor->run(FORWARD);
+      MOTOR_A->run(BACKWARD);
       MOTOR_B->run(FORWARD);
-      MOTOR_C->run(FORWARD);
+      MOTOR_C->run(BACKWARD);
       MOTOR_D->run(FORWARD);
-    }
-    else if(A == LOW && B == HIGH) {
-      myMotor->run(FORWARD);
+    } //FORWARD
+    else if(A == LOW && B == LOW) {
+      MOTOR_A->run(FORWARD);
       MOTOR_B->run(BACKWARD);
       MOTOR_C->run(FORWARD);
       MOTOR_D->run(BACKWARD);
-    }
-    else if(A == HIGH && B == LOW) { 
-      myMotor->run(BACKWARD);
-      MOTOR_B->run(FORWARD);
+    } //CLOCKWISE
+    else if(A == LOW && B == HIGH) {
+      MOTOR_A->run(BACKWARD);
+      MOTOR_B->run(BACKWARD);
       MOTOR_C->run(BACKWARD);
+      MOTOR_D->run(BACKWARD);
+    } //COUNTER CLOCKWISE
+    else if(A == HIGH && B == LOW) { 
+      MOTOR_A->run(FORWARD);
+      MOTOR_B->run(FORWARD);
+      MOTOR_C->run(FORWARD);
       MOTOR_D->run(FORWARD);
     }
   }
   else {
-      myMotor->run(RELEASE);
+      MOTOR_A->run(RELEASE);
       MOTOR_B->run(RELEASE);
       MOTOR_C->run(RELEASE);
       MOTOR_D->run(RELEASE);
