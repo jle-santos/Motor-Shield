@@ -11,10 +11,10 @@
 // Additional libraries
 #include <math.h>
 
-#define ONE_WIRE_BUS 8  // Data wire is conntect to the Arduino digital pin 7
-#define LSM9DS1_SCK A5
+#define TEMP_PIN 8  // Data wire is conntect to the Arduino digital pin 7
+#define LSM9DS1_SCL A5
 #define LSM9DS1_MISO 12
-#define LSM9DS1_MOSI A4
+#define LSM9DS1_SDA A4
 #define LSM9DS1_XGCS 6
 #define LSM9DS1_MCS 5
 #define O2_SENSOR_PIN A0
@@ -22,7 +22,7 @@
 #define G_CONVERT 0.101971621
 
 // Setup a oneWire instance to communicate with any OneWire devices
-OneWire oneWire(ONE_WIRE_BUS);
+OneWire oneWire(TEMP_PIN);
 
 // Pass our oneWire reference to Dallas Temperature sensor 
 DallasTemperature sensors(&oneWire);
