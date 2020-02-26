@@ -130,9 +130,9 @@ void loop() {
 
   if (oxygen >= 19.6)
     level = 0;
-  else if (oxygen >= 14.0 && oxygen < 19.6)
+  else if (oxygen >= 16.0 && oxygen < 19.6)
     level = 1;
-  else if (oxygen < 14.0)
+  else if (oxygen < 16.0)
     level = 2;
 
   Serial.print(direction); Serial.print(" "); 
