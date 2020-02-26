@@ -11,7 +11,7 @@
 // Additional libraries
 #include <math.h>
 
-#define ONE_WIRE_BUS 7  // Data wire is conntect to the Arduino digital pin 7
+#define ONE_WIRE_BUS 8  // Data wire is conntect to the Arduino digital pin 7
 #define LSM9DS1_SCK A5
 #define LSM9DS1_MISO 12
 #define LSM9DS1_MOSI A4
